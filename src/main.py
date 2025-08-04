@@ -1,35 +1,43 @@
-from data_loader import load_precipitation, load_wind_speed, load_temperature
-from precipitation import get_total_precipitation_last_24h
-from wind import get_max_instant_wind_speed, get_max_wind_speed
-from temperature import get_temperature_range
+import os
+import pandas as pd
+from data_loader import (
+    load_precipitation,
+    load_temperature,
+    load_wind
+)
+
+# Automatically detect the base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, "data")
 
 def main():
+    # Paths to the CSV files
+    precipitation_file = os.path.join(DATA_DIR, "all_elements_of_precipitation.csv")
+    daily_precip_file = os.path.join(DATA_DIR, "daily_precipitation.csv")
+    max_temp_file = os.path.join(DATA_DIR, "highest_temperature.csv")
+    min_temp_file = os.path.join(DATA_DIR, "minimum_temperature.csv")
+    max_wind_speed_file = os.path.join(DATA_DIR, "maximum_wind_speed.csv")
+    max_instant_wind_speed_file = os.path.join(DATA_DIR, "maximum_instantaneous_wind_speed.csv")
 
-    precipitation_file = '../data/all_elements_of_precipitation.csv'
-    max_instant_wind_file = '../data/maximum_instantaneous_wind_speed.csv'
-    max_wind_file = '../data/maximum_wind_speed.csv'
-    min_temp_file = '../data/minimum_temperature.csv'
-    max_temp_file = '../data/highest_temperature.csv'
-
+    # Load data using helper functions
     precipitation_df = load_precipitation(precipitation_file)
-    max_instant_wind_df = load_wind_speed(max_instant_wind_file)
-    max_wind_df = load_wind_speed(max_wind_file)
-    min_temp_df = load_temperature(min_temp_file)
-    max_temp_df = load_temperature(max_temp_file)
+    daily_precip_df = load_precipitation(daily_precip_file)
+    temperature_df = load_temperature(min_temp_file, max_temp_file)
+    wind_df = load_wind(max_wind_speed_file, max_instant_wind_speed_file)
 
-  
-    station_id = '12345'
+    # Show summaries
+    print("\n📊 All Elements of Precipitation:")
+    print(precipitation_df.head())
 
-    precip_24h = get_total_precipitation_last_24h(precipitation_df, station_id)
-    max_instant_wind = get_max_instant_wind_speed(max_instant_wind_df, station_id)
-    max_wind = get_max_wind_speed(max_wind_df, station_id)
-    min_temp, max_temp = get_temperature_range(min_temp_df, max_temp_df, station_id)
+    print("\n🌧️ Daily Precipitation:")
+    print(daily_precip_df.head())
 
-    print(f"Station {station_id}:")
-    print(f"  24h Precipitation: {precip_24h} mm")
-    print(f"  Max Instantaneous Wind Speed: {max_instant_wind} m/s")
-    print(f"  Max Wind Speed: {max_wind} m/s")
-    print(f"  Temperature Range: {min_temp}°C to {max_temp}°C")
+    print("\n🌡️ Temperature Data:")
+    print(temperature_df.head())
+
+    print("\n🌬️ Wind Data:")
+    print(wind_df.head())
 
 if __name__ == "__main__":
     main()
+
