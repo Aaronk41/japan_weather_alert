@@ -1,3 +1,3 @@
 # japan_weather_alert
 
-Built a backend system to load, clean, and merge Japanese weather datasets (precipitation, temperature, wind) from Shift_JIS CSV files. Automated data workflows with modular, error-handled Python functions, enabling accurate reporting and future integration into visualization dashboards and real-time alerts.
+Built a Python backend to load, clean, and merge daily weather data from the Japan Meteorological Agency, working with CSV files fully in Japanese (Shift_JIS encoding). Automated processing of precipitation, temperature, and wind datasets to enable reliable weather monitoring and alert generation. This project highlights my ability to handle multilingual data sources and develop scalable data workflows for real-world applications.
